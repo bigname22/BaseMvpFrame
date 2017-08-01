@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">BaseMvpFrameMaster01</string>
+
+    <!--主功能-->
+    <string name="func1_road_show">线路简图</string>
+    <string name="func2_road_map">线路地图</string>
+    <string name="func3_monitor">视频监控</string>
+    <string name="func4_attention">报警信息</string>
+    <string name="func5_advert">广告查询</string>
+    <string name="func6_bus_info">车辆信息</string>
+    <!--<string name="func7_site_search">站点查询</string>-->
+    <string name="func8_send_instructions">发送指令</string>
+    <string name="func9_waybill_enter">路单录入</string>
+    <string name="func10_oil_enter">加油录入</string>
+    <string name="func11_journey_enter">里程录入</string>
+    <string name="func12_receipt_enter">收款录入</string>
+    <string name="func13_operation_overview">营运概况</string>
+    <string name="exception_base_return_layout">没设置加载布局</string>
+</resources>
