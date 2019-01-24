@@ -6,20 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".view.activity.MainActivity">
 
-    <TextView
-        android:id="@+id/messageView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottomBar"
-        android:gravity="center"
-        android:text="Hi mom!" />
 
-    <com.roughike.bottombar.BottomBar
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
+        android:layout_above="@+id/bottomBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v4.view.ViewPager>
+
+
+    <android.support.design.widget.BottomNavigationView
         android:id="@+id/bottomBar"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
+        android:layout_height="56dp"
+        android:layout_gravity="start"
         android:layout_alignParentBottom="true"
-        app:bb_tabXmlResource="@xml/main_bottm_tab"
-        app:bb_behavior="shifting|underNavbar" />
+        app:menu="@menu/main_bottom_bar"/>
 
 </RelativeLayout>

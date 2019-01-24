@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">MvpFrameDemo</string>
+    <!-- 首页bottombar -->
+    <string name="bottom_bar_main">天秀</string>
+    <string name="bottom_bar_empty_room">空教室</string>
+    <string name="bottom_bar_message">有人找</string>
+    <string name="bottom_bar_near_school">隔壁学校</string>
+    <string name="bottom_bar_mine">老子</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

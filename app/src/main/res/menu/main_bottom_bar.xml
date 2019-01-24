@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/bar_show"
+        android:title="@string/bottom_bar_main"
+        android:icon="@drawable/ic_favorites" />
+
+    <item android:id="@+id/bar_empty_school"
+        android:title="@string/bottom_bar_empty_room"
+        android:icon="@drawable/ic_restaurants" />
+
+    <item android:id="@+id/bar_message"
+        android:title="@string/bottom_bar_message"
+        android:icon="@drawable/ic_nearby" />
+
+    <item android:id="@+id/bar_near_school"
+        android:title="@string/bottom_bar_near_school"
+        android:icon="@drawable/ic_favorites" />
+
+    <item android:id="@+id/bar_mine"
+        android:title="@string/bottom_bar_mine"
+        android:icon="@drawable/ic_recents" />
+</menu>

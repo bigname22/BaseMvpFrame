@@ -17,4 +17,6 @@ public class LoginModel implements ILoginModel {
             callBack.onFail(new Exception());
         }
     }
+
+
 }
