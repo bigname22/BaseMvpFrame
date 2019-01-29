@@ -32,4 +32,15 @@ dependencies {
     // butterknife
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    // 网络请求 Retrofit + Rxjava
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'//导入retrofit
+    implementation 'com.google.code.gson:gson:2.6.2'//Gson 库
+    implementation 'com.squareup.okhttp3:okhttp:3.1.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.1.2'
+    implementation 'com.orhanobut:logger:2.1.0' // 打印日志
+    //下面两个是RxJava 和 RxAndroid
+    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.x.y'
+    implementation 'com.squareup.retrofit2:converter-gson:2.3.0'//转换器，请求结果转换成Model
+    implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'//配合Rxjava
 }

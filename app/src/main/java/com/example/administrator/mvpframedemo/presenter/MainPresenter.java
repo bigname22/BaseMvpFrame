@@ -2,26 +2,20 @@ package com.example.administrator.mvpframedemo.presenter;
 
 import android.util.Log;
 
-import com.example.administrator.mvpframedemo.constract.LoginContract;
-import com.example.administrator.mvpframedemo.domain.LoginDomain;
+import com.example.administrator.mvpframedemo.constract.MainContract;
 import com.example.administrator.mvpframedemo.domain.NewsDomain;
 import com.example.administrator.mvpframedemo.model.impl.TestModel;
-import com.example.administrator.mvpframedemo.model.inter.ILoginModel;
-import com.example.administrator.mvpframedemo.other.inter.ICallBack;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public  class LoginPresenter extends LoginContract.LoginPresenter {
+public class MainPresenter extends MainContract.MainPresenter {
     private static final String TAG = "bigname";
-    ILoginModel loginModel;
+
     @Override
     public void login(String name, String password) {
-//        loginModel = new LoginModel();
-//        loginModel.login(name, password, new LoginCallBack());
-
         TestModel testModel = new TestModel();
         Observable<NewsDomain> newsDomainObservable = testModel.test();
         newsDomainObservable.subscribeOn(Schedulers.io())
@@ -43,18 +37,5 @@ public  class LoginPresenter extends LoginContract.LoginPresenter {
                         Log.d(TAG, "onComplete: ");
                     }
                 });
-    }
-
-    private class LoginCallBack implements ICallBack<LoginDomain, Exception> {
-
-        @Override
-        public void onSuccess(LoginDomain result) {
-            mView.showTips("登录成功");
-        }
-
-        @Override
-        public void onFail(Exception error) {
-            mView.showTips("登录失败");
-        }
     }
 }

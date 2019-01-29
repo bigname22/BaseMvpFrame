@@ -10,8 +10,13 @@ import android.view.View;
 import com.example.administrator.mvpframedemo.R;
 import com.example.administrator.mvpframedemo.base.BaseActivity;
 import com.example.administrator.mvpframedemo.base.BaseFragment;
+import com.example.administrator.mvpframedemo.base.BaseMvpActivity;
 import com.example.administrator.mvpframedemo.base.BasePresenter;
+import com.example.administrator.mvpframedemo.constract.LoginContract;
+import com.example.administrator.mvpframedemo.constract.MainContract;
 import com.example.administrator.mvpframedemo.other.adapter.MainVpAdapter;
+import com.example.administrator.mvpframedemo.presenter.LoginPresenter;
+import com.example.administrator.mvpframedemo.presenter.MainPresenter;
 import com.example.administrator.mvpframedemo.view.fragment.main.EmptyRoomFragment;
 import com.example.administrator.mvpframedemo.view.fragment.main.MainShowFragment;
 import com.example.administrator.mvpframedemo.view.fragment.main.MessageFragment;
@@ -23,7 +28,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity  implements BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseMvpActivity<MainContract.MainPresenter> implements MainContract.MainView, BottomNavigationView.OnNavigationItemSelectedListener, ViewPager.OnPageChangeListener {
 
     @BindView(R.id.vp)
     ViewPager mVp;
@@ -63,8 +68,10 @@ public class MainActivity extends BaseActivity  implements BottomNavigationView.
         return R.layout.activity_main;
     }
 
+
     @Override
-    protected void init(Bundle savedInstanceState) {
+    protected MainPresenter bindPresenter() {
+        return new MainPresenter();
     }
 
     @Override
@@ -88,7 +95,7 @@ public class MainActivity extends BaseActivity  implements BottomNavigationView.
 
     @Override
     protected void logic() {
-
+        mPresenter.login("11111", "2222222");
     }
 
     /*
@@ -120,5 +127,10 @@ public class MainActivity extends BaseActivity  implements BottomNavigationView.
     @Override
     public void onPageScrollStateChanged(int i) {
 
+    }
+
+    @Override
+    public void showTips(String str) {
+        showToast(str);
     }
 }
