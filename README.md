@@ -1,10 +1,22 @@
 # BaseMvpFrame
+2019-1-18 15:00
+update1: BaseMvpFrame  作为以后项目的框架（并会在实践中不断完善该框架，达到以后能复用进行快速开发）
+csdn https://blog.csdn.net/bigname22/article/details/86606808
+
+2019-1-24 23:22
+update2: ViewPager + Fragment + BottomNavigationView  确认App UI轮廓
+
+计划 update3： 引入网络框架，实现联动UI效果
+
+
+
+--------------------------------------------------
 mvp框架基础构建
 这几天都在研究如何搭建一个实用稳固的MVP架构作为快速开发的基底。
 也纠结了很久Presenter层该如何复用，在网上查阅了很多资料之后仍然没能找到一个适用的办法，有的写法单纯是为了presenter的复用而写，却给其他模块增负担；有的实现的手法过于僵硬，不符合写代码的原则。
 在看完各种奇奇怪怪的实现思路之后，自己内心也有了一个实现presenter复用的一套方法，不过还不知道可不可行，到时撸完了可行再贴出来。
 
-csdn https://blog.csdn.net/bigname22/article/details/86606808
+
 
 这篇文章先撸一遍MVP的基本框架搭建，看完这篇文章你能学会：
 
