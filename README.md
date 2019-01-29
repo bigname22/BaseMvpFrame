@@ -10,6 +10,7 @@ update2: ViewPager + Fragment + BottomNavigationView  确认App UI轮廓
 
 
 --2019-1-29 18:22
+
 update3： 引入网络框架，实现联动UI效果
 
 计划 update4： 自定义View，做一个炫酷的LoadingView
