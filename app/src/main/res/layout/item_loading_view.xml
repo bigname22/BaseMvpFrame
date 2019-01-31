@@ -3,16 +3,14 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:background="#fff"
     android:padding="24dp"
-    android:paddingTop="48dp"
-    android:layout_height="wrap_content">
+    android:layout_height="148dp">
 
     <ImageView
         android:id="@+id/iv_loading"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_centerInParent="true"
+        android:layout_above="@+id/tv_loading"
         android:src="@drawable/ic_favorites" />
     <TextView
         android:id="@+id/tv_loading"
@@ -20,7 +18,7 @@
         android:text="加载中..."
         android:layout_marginTop="12dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/iv_loading"
+        android:layout_alignParentBottom="true"
         android:layout_height="wrap_content" />
 
 </RelativeLayout>
