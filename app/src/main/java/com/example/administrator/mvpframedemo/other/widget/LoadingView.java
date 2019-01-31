@@ -1,5 +1,7 @@
 package com.example.administrator.mvpframedemo.other.widget;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -17,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.example.administrator.mvpframedemo.R;
 import com.example.administrator.mvpframedemo.other.util.DisplayUtil;
@@ -32,27 +35,37 @@ import com.example.administrator.mvpframedemo.other.util.DisplayUtil;
 public class LoadingView extends FrameLayout {
 
     private ImageView mIv;
-    private int imgResIds[];
+    private TextView mTv;
+
+    private int mImgResIds[];
     private Context mContext;
 
     private Paint mShadowPaint;
     private RectF mShadowRectF;
     private float mShadowFlatX = 0.6f;
     private float mShadowFlatY = 0.3f;
+    private int mShadowColor = Color.LTGRAY;
 
-    private int mIvHeight;
-    private int mIvWidth;
     private int mIvTop;
     private int mIvBottom;
     private int mIvLeft;
     private int mIvRight;
     private int mJumpHeightPx;
 
+    private ValueAnimator mAnimation;
+    private int mDuration = 1000;
+    private int mRepeatCount = 0;
+
+
     /*
     *   image当前高度离完整高度的百分比
     * */
     private float mMovePercent;
-    private View mContentView;
+
+
+    private final int DEFAULT_JUMP_HEIGHT_DP = 24;
+
+
 
     public LoadingView(Context context) {
         this(context,null);
@@ -72,41 +85,56 @@ public class LoadingView extends FrameLayout {
 
     private void init() {
         setWillNotDraw(false);
+        setVisibility(View.GONE);
         mShadowPaint = new Paint();
         mShadowPaint.setStyle(Paint.Style.FILL);
-        mShadowPaint.setColor(Color.LTGRAY);
+        mShadowPaint.setColor(mShadowColor);
         mShadowRectF = new RectF();
 
-        mJumpHeightPx = (int)DisplayUtil.dip2px(24, mContext);
+        mJumpHeightPx = (int)DisplayUtil.dip2px(DEFAULT_JUMP_HEIGHT_DP, mContext);
     }
 
 
     private void initView() {
-        mContentView = LayoutInflater.from(mContext).inflate(R.layout.item_loading_view, this);
+        LayoutInflater.from(mContext).inflate(R.layout.item_loading_view, this);
         mIv = ((ImageView) findViewById(R.id.iv_loading));
-//        mIvWidth = mIv.getMeasuredWidth();
-//        mIvHeight = mIv.getMeasuredHeight();
-        mIvWidth = 48;
-        mIvHeight = 48;
+        mTv = ((TextView) findViewById(R.id.tv_loading));
     }
 
     private void logic() {
-        ValueAnimator animator = ValueAnimator.ofInt(0,mJumpHeightPx,0);
-        animator.setDuration(800);
-        animator.setRepeatMode(ValueAnimator.RESTART);
-        animator.setRepeatCount(ValueAnimator.INFINITE);
-        animator.setInterpolator(new AccelerateDecelerateInterpolator());
-        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+        this.mAnimation = createAnimation();
+    }
+
+    private ValueAnimator createAnimation () {
+        ValueAnimator animation = ValueAnimator.ofInt(0,mJumpHeightPx,0);
+        animation.setDuration(mDuration);
+        animation.setRepeatMode(ValueAnimator.RESTART);
+        animation.setRepeatCount(ValueAnimator.INFINITE);
+        animation.setInterpolator(new AccelerateDecelerateInterpolator());
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 int value = (int) animation.getAnimatedValue();
                 mIv.setTranslationY(-value);
                 // 为了画shadow
-                mMovePercent = value / 100f;
+                mMovePercent = value / (float)mJumpHeightPx;
                 postInvalidate();
             }
         });
-        animator.start();
+        animation.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+                mRepeatCount++;
+                if(mImgResIds !=null && mImgResIds.length > 0) {
+                    mIv.setImageResource(mImgResIds[mRepeatCount%mImgResIds.length]);
+                }
+            }
+
+            @Override
+            public void onAnimationResume(Animator animation) {
+            }
+        });
+        return animation;
     }
 
     @Override
@@ -121,7 +149,7 @@ public class LoadingView extends FrameLayout {
         // 缩放的变化量（决定阴影变化大小）
         float horizontalDiff = Math.max(2,(1f - mMovePercent) * shadowHalfWidth * mShadowFlatX);
         float verticalDiff = Math.max(2,(1f - mMovePercent) * shadowHalfHeight * mShadowFlatY);
-        Log.d("bigname", "onDraw: " + yCenter + "-----" + xCenter + "------" + horizontalDiff + "--------" + verticalDiff + "-------" + mMovePercent);
+//        Log.d("bigname", "onDraw: " + yCenter + "-----" + xCenter + "------" + horizontalDiff + "--------" + verticalDiff + "-------" + mMovePercent);
         mShadowRectF.set(
                 yCenter - horizontalDiff,
                 xCenter - verticalDiff,
@@ -141,9 +169,92 @@ public class LoadingView extends FrameLayout {
         mIvRight = mIv.getRight();
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        Log.d("bigname", "onMeasure: ");
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+    // 供外部设置 ---------------------
+    /*
+    *   设置跳跃高度
+    * */
+    public LoadingView setJumpHeightPx(int jumpPx) {
+        this.mJumpHeightPx = jumpPx;
+        mAnimation.setIntValues(0,mJumpHeightPx,0);
+        return this;
+    }
+
+    public LoadingView setJumpHeightDp(int jumpDp) {
+        int height = (int)DisplayUtil.dip2px((float) jumpDp, mContext);
+        setJumpHeightPx(height);
+        return this;
+    }
+
+    /*
+    *   设置一次跳跃的动画时间
+    * */
+    public LoadingView setDuration(int duration) {
+        this.mDuration = duration;
+        mAnimation.setDuration(this.mDuration);
+        return this;
+    }
+
+    /*
+    *   设置动画重复模式
+    * */
+    private void setRepeatMode (int mode) {
+
+    }
+
+    /*
+    *   设置阴影颜色
+    * */
+    public LoadingView setShadowColor (int color) {
+        this.mShadowColor = color;
+        mShadowPaint.setColor(this.mShadowColor);
+        return this;
+    }
+
+    /*
+    *   以跳跃图片大小为准，进行缩小
+    * */
+    public LoadingView setShadowFlat (float x, float y) {
+        this.mShadowFlatX = x;
+        this.mShadowFlatY = y;
+        return this;
+    }
+
+    /*
+    *   设置加载文字
+    * */
+    public LoadingView setTips(String tips) {
+        mTv.setText(tips);
+        return this;
+    }
+
+    /*
+    *   显示loading
+    * */
+    public void load () {
+        setVisibility(View.VISIBLE);
+        if (mAnimation == null) {
+            mAnimation = createAnimation();
+        }
+        mAnimation.start();
+    }
+
+    /*
+    *   隐藏loading
+    * */
+    public void hide(){
+        setVisibility(View.GONE);
+        if(mAnimation != null){
+            mAnimation.cancel();
+            mAnimation = null;
+        }
+    }
+
+    /*
+    *   设置播放图片列表
+    * */
+    public LoadingView setPlayImgs (int[] imgResIds) {
+        this.mImgResIds = imgResIds;
+        return this;
     }
 }

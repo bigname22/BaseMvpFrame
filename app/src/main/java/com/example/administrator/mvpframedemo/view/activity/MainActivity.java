@@ -1,6 +1,9 @@
 package com.example.administrator.mvpframedemo.view.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.view.ViewPager;
@@ -16,6 +19,7 @@ import com.example.administrator.mvpframedemo.base.BasePresenter;
 import com.example.administrator.mvpframedemo.constract.LoginContract;
 import com.example.administrator.mvpframedemo.constract.MainContract;
 import com.example.administrator.mvpframedemo.other.adapter.MainVpAdapter;
+import com.example.administrator.mvpframedemo.other.widget.LoadingView;
 import com.example.administrator.mvpframedemo.presenter.LoginPresenter;
 import com.example.administrator.mvpframedemo.presenter.MainPresenter;
 import com.example.administrator.mvpframedemo.view.fragment.main.EmptyRoomFragment;
@@ -35,6 +39,8 @@ public class MainActivity extends BaseMvpActivity<MainContract.MainPresenter> im
     ViewPager mVp;
     @BindView(R.id.bottomBar)
     BottomNavigationView mBb;
+    @BindView(R.id.loadingview)
+    LoadingView mLoadingView;
 
     /*
     *   List Fragment
@@ -92,6 +98,23 @@ public class MainActivity extends BaseMvpActivity<MainContract.MainPresenter> im
         mVp.setAdapter(mVpAdapter);
         mVp.addOnPageChangeListener(this);
         mBb.setOnNavigationItemSelectedListener(this);
+
+        mLoadingView.setTips("玩命加载...")
+            .setShadowFlat(0.6f,0.3f)
+            .setShadowColor(Color.BLUE)
+            .setDuration(800)
+            .setJumpHeightDp(24)
+            .setPlayImgs(new int[]{R.drawable.ic_nearby, R.drawable.ic_friends,R.drawable.ic_recents});
+
+        mLoadingView.load();
+        Handler handler = new Handler(new Handler.Callback() {
+            @Override
+            public boolean handleMessage(Message msg) {
+                mLoadingView.hide();
+                return false;
+            }
+        });
+//        handler.postDelayed(null, 2000);
     }
 
     @Override

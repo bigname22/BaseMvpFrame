@@ -8,9 +8,10 @@
 
     <ImageView
         android:id="@+id/iv_loading"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_above="@+id/tv_loading"
+        android:layout_centerHorizontal="true"
         android:src="@drawable/ic_favorites" />
     <TextView
         android:id="@+id/tv_loading"
